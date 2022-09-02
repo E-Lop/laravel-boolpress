@@ -13,17 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
+
+// rotte admin di backend gestite da laravel
 Route::middleware('auth')
 ->namespace('Admin')
 ->name('admin.')
 ->prefix('admin')
 ->group(function() {
 	Route::get('/', 'HomeController@index')->name('home');
-	// Route::get('about', 'HomeController@about')->name('about');
 });
 
-Route::get('/', function () {
-    return view('admin.home');
+// rotte guest
+Route::get('{any?}', function () {
+    return view('guest.home');
 });
 
-Auth::routes();
