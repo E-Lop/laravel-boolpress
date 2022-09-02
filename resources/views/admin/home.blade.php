@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container">
-        <h1>Homepage dashboard privata</h1>
+        <h1 class="hero_title">Homepage dashboard privata</h1>
     </div>
 @endsection
