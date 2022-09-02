@@ -13,9 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware('auth')
+->namespace('Admin')
+->name('admin.')
+->prefix('admin')
+->group(function() {
+	Route::get('/', 'HomeController@index')->name('home');
+	// Route::get('about', 'HomeController@about')->name('about');
+});
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.home');
 });
 
 Auth::routes();
-
