@@ -27,5 +27,5 @@ Route::middleware('auth')
 // rotte guest
 Route::get('{any?}', function () {
     return view('guest.home');
-});
+})->where("any", ".*");
 
