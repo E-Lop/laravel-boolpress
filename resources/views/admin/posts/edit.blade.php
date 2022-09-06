@@ -3,7 +3,7 @@
 @section('content')
     <h1>Modifica il post</h1>
 
-    <form action="{{ route('admin.posts.update') }}" method="post">
+    <form action="{{ route('admin.posts.update', ['post' => $post->id]) }}" method="post">
         @csrf
         @method('PUT')
 

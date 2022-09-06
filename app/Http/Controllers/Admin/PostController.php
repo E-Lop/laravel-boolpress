@@ -43,10 +43,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validateData = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required|max:60000',
-        ]);
+        $validateData = $request->validate($this->getValidationRules());
 
         $form_data = $request->all();
 
@@ -91,6 +88,7 @@ class PostController extends Controller
         ];
 
         return view('admin.posts.edit', $data);
+        dd($data);
     }
 
     /**
@@ -102,6 +100,8 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate($this->getValidationRules());
+        
         $form_data = $request->all();
 
         // post da aggiornare preso dal db
@@ -152,5 +152,12 @@ class PostController extends Controller
         }
 
         return $slug_to_save;
+    }
+
+    protected function getValidationRules() {
+        return [
+            'title' => 'required|max:255',
+            'content' => 'required|max:60000',
+        ];
     }
 }
