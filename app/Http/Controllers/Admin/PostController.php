@@ -84,7 +84,13 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        $data = [
+            'post' => $post
+        ];
+
+        return view('admin.posts.edit', $data);
     }
 
     /**
@@ -96,7 +102,23 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $form_data = $request->all();
+
+        // post da aggiornare preso dal db
+        $post_to_update = Post::findOrFail($id);
+
+        // aggiungere slug all'array dei nuovi dati
+        // ricalcolo slug solo se cambia il titolo
+        if($form_data['title'] !== $post_to_update->title) {
+            $form_data['slug'] = $this->getFreeSlugsFromTitle($form_data['title']);
+            // altrimenti rimane quello già nel db
+        } else {
+            $form_data['slug'] = $post_to_update->slug;
+        }
+
+        $post_to_update->update($form_data);
+
+        return redirect()->route('admin.posts.show', ['post'=> $post_to_update->id]);
     }
 
     /**
