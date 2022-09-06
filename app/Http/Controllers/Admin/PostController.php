@@ -14,12 +14,17 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $posts = Post::all();
 
+        // lettura dati cancellazione post
+        $page_data = $request->all();
+        $deleted = isset($page_data['deleted']) ? $page_data['deleted'] : null;
+
         $data = [
-            'posts' => $posts
+            'posts' => $posts,
+            'deleted' => $deleted
         ];
 
         return view('admin.posts.index', $data);
@@ -129,7 +134,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post_to_delete = Post::findOrFail($id);
+        $post_to_delete->delete();
+
+        return redirect()->route('admin.posts.index', ['deleted' => 'yes']);
     }
 
     protected function getFreeSlugsFromTitle($title) {

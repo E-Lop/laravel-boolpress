@@ -1,7 +1,15 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="row row-cols-3 gy-5">
+    {{-- messaggio visibile solo dopo cancellazione di un post --}}
+    @if ($deleted === 'yes')
+        <div class="alert alert-success" role="alert">
+            Fumetto eliminato con successo
+        </div>
+    @endif
+    
+    <div class="row row-cols-3 gy-5">        
+
         @foreach ($posts as $post)
             {{-- singolo post --}}
             <div class="col">
