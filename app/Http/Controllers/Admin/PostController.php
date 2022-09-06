@@ -24,7 +24,7 @@ class PostController extends Controller
 
         // lettura dati cancellazione post
         $page_data = $request->all();
-        $deleted = isset($page_data['deleted']) ? $page_data['deleted'] : null;
+        $deleted = isset($page_data['deleted']) ? $page_data['deleted'] : null;       
 
         $data = [
             'posts' => $posts,
@@ -74,11 +74,15 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        
-        $data = [
-            'post' => $post
-        ];
+        $data_creato_italiana = $post->created_at->translatedFormat('d F Y');
+        $data_modificato_italiana = $post->updated_at->translatedFormat('d F Y');
 
+        $data = [
+            'post' => $post,
+            'data_creato_italiana' => $data_creato_italiana,
+            'data_modificato_italiana' => $data_modificato_italiana,
+        ];
+        // dd($data);
         return view('admin.posts.show', $data);
     }
 
