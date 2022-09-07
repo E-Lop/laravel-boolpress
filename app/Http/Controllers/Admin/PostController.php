@@ -101,7 +101,6 @@ class PostController extends Controller
         ];
 
         return view('admin.posts.edit', $data);
-        dd($data);
     }
 
     /**
