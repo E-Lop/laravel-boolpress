@@ -6,6 +6,9 @@
     <div><strong>Creato il: </strong>{{ $data_creato_italiana }}</div>
     <div><strong>Aggiornato il: </strong>{{ $data_modificato_italiana }}</div>
     <div><strong>Slug: </strong>{{ $post->slug }}</div>
+    
+    <div><strong>Categoria: {{ $post->category ? $post->category->name : 'nessuna' }}</strong></div>
+
     <h3 class="mt-2"><strong>Contenuto del post:</strong></h3>
     <p>{{ $post->content }}</p>
     <div class="crud_buttons d-flex">
