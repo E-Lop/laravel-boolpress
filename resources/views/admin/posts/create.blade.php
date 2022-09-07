@@ -13,13 +13,15 @@
               <div class="alert alert-danger">{{ $message }}</div>
           @enderror
         
+        
         <div class="mb-3">
           {{-- selettore di categoria del post --}}
           <label for="category_id">Categoria</label>
           <select class="form-select" name="category_id" id="category_id">
             <option value="">Nessuna</option>
+            
             @foreach ($categories as $category)
-              <option value="{{$category->id}}">{{$category->name}}</option>
+              <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
             @endforeach
           </select>        
         </div>  

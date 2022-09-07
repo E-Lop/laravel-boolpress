@@ -47,6 +47,7 @@ class PostController extends Controller
         $data = [
             'categories' => $categories
         ];
+        
         return view('admin.posts.create', $data);
     }
 
