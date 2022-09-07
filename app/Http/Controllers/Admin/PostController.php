@@ -8,6 +8,7 @@ use App\Post;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Jenssegers\Date\Date;
+use App\Category;
 
 Date::setLocale('it');
 
@@ -41,7 +42,12 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+
+        $data = [
+            'categories' => $categories
+        ];
+        return view('admin.posts.create', $data);
     }
 
     /**
