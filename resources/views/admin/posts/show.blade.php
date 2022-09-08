@@ -8,6 +8,18 @@
     <div><strong>Slug: </strong>{{ $post->slug }}</div>
     
     <div><strong>Categoria: {{ $post->category ? $post->category->name : 'nessuna' }}</strong></div>
+    <div>
+        <strong>Tag: </strong>
+        
+        @if ($post->tags->isNotEmpty()) {
+            @foreach ($post->tags as $tag)
+                {{ $tag->name }}{{ !$loop->last ? ',' : '' }}                
+            @endforeach
+        }
+        @else
+            nessuno  
+        @endif
+    </div>
 
     <h3 class="mt-2"><strong>Contenuto del post:</strong></h3>
     <p>{{ $post->content }}</p>

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Jenssegers\Date\Date;
 use App\Category;
+use App\Tag;
 
 Date::setLocale('it');
 
@@ -43,9 +44,11 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
         $data = [
-            'categories' => $categories
+            'categories' => $categories,
+            'tags' => $tags
         ];
 
         return view('admin.posts.create', $data);
@@ -68,6 +71,11 @@ class PostController extends Controller
         $new_post->slug = $this->getFreeSlugsFromTitle($new_post->title);
 
         $new_post->save();
+
+        // dopo aver salvato il post appendo i tag
+        if(isset($form_data['tags'])) {
+            $new_post->tags()->sync($form_data['tags']);
+        }
 
         return redirect()->route('admin.posts.show', ['post' => $new_post->id]);
     }
@@ -103,10 +111,12 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $categories = Category::all();
+        $tags = Tag::all();
 
         $data = [
             'post' => $post,
-            'categories' => $categories
+            'categories' => $categories,
+            'tags' => $tags
         ];
 
         return view('admin.posts.edit', $data);
@@ -138,6 +148,13 @@ class PostController extends Controller
         }
 
         $post_to_update->update($form_data);
+
+        // aggiungo i tag
+        if(isset($form_data['tags'])) {
+            $post_to_update->tags()->sync($form_data['tags']);
+        } else {
+            $post_to_update->tags()->sync([[]]);
+        }
 
         return redirect()->route('admin.posts.show', ['post'=> $post_to_update->id]);
     }
