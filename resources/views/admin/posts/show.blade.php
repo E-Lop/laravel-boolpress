@@ -7,15 +7,14 @@
     <div><strong>Aggiornato il: </strong>{{ $data_modificato_italiana }}</div>
     <div><strong>Slug: </strong>{{ $post->slug }}</div>
     
-    <div><strong>Categoria: {{ $post->category ? $post->category->name : 'nessuna' }}</strong></div>
+    <div><strong>Categoria: </strong>{{ $post->category ? $post->category->name : 'nessuna' }}</div>
     <div>
         <strong>Tag: </strong>
         
-        @if ($post->tags->isNotEmpty()) {
+        @if ($post->tags->isNotEmpty())
             @foreach ($post->tags as $tag)
                 {{ $tag->name }}{{ !$loop->last ? ',' : '' }}                
             @endforeach
-        }
         @else
             nessuno  
         @endif
