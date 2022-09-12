@@ -1913,15 +1913,23 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       pageTitle: "Lista dei post",
-      posts: []
+      posts: [],
+      currentPaginationPage: 1,
+      lastPaginationPage: null
     };
   },
   methods: {
-    getPosts: function getPosts() {
+    getPosts: function getPosts(pageNumber) {
       var _this = this;
 
-      axios.get("/api/posts").then(function (response) {
-        _this.posts = response.data.results;
+      axios.get("/api/posts", {
+        params: {
+          page: pageNumber
+        }
+      }).then(function (response) {
+        _this.posts = response.data.results.data;
+        _this.currentPaginationPage = response.data.results.current_page;
+        _this.lastPaginationPage = response.data.results.last_page;
       });
     },
     truncateText: function truncateText(text) {
@@ -1933,7 +1941,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.getPosts();
+    this.getPosts(1);
   }
 });
 
@@ -1991,7 +1999,62 @@ var render = function render() {
     }, [_vm._v(_vm._s(post.title))]), _vm._v(" "), _c("p", {
       staticClass: "card-text"
     }, [_vm._v("\n                            " + _vm._s(_vm.truncateText(post.content)) + "\n                        ")])])])]);
-  }), 0)])]);
+  }), 0), _vm._v(" "), _c("nav", {
+    staticClass: "mt-3"
+  }, [_c("ul", {
+    staticClass: "pagination"
+  }, [_c("li", {
+    staticClass: "page-item"
+  }, [_c("a", {
+    staticClass: "page-link",
+    "class": {
+      disabled: _vm.currentPaginationPage == 1
+    },
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.getPosts(_vm.currentPaginationPage - 1);
+      }
+    }
+  }, [_vm._v("Previous")])]), _vm._v(" "), _vm._l(_vm.lastPaginationPage, function (pageNumber) {
+    return _c("li", {
+      key: pageNumber,
+      staticClass: "page-item"
+    }, [_c("a", {
+      staticClass: "page-link",
+      "class": {
+        active: pageNumber == _vm.currentPaginationPage
+      },
+      attrs: {
+        href: "#"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.getPosts(pageNumber);
+        }
+      }
+    }, [_vm._v(_vm._s(pageNumber))])]);
+  }), _vm._v(" "), _c("li", {
+    staticClass: "page-item"
+  }, [_c("a", {
+    staticClass: "page-link",
+    "class": {
+      disabled: _vm.currentPaginationPage == _vm.lastPaginationPage
+    },
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.getPosts(_vm.currentPaginationPage + 1);
+      }
+    }
+  }, [_vm._v("Next")])])], 2)])])]);
 };
 
 var staticRenderFns = [];
