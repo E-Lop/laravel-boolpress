@@ -23,8 +23,10 @@
                 <ul class="pagination">
                     <li class="page-item">
                         <a
-                            class="page-link"
-                            :class="{ 'disabled': currentPaginationPage == 1 }"
+                            :class="[
+                                { 'disabled': currentPaginationPage == 1 }, 
+                                'page-link btn'
+                            ]"
                             @click.prevent="getPosts(currentPaginationPage - 1)"
                             href="#"
                             >Previous</a
@@ -37,7 +39,7 @@
                     >
                         <a
                             @click.prevent="getPosts(pageNumber)"
-                            class="page-link"
+                            class="page-link btn"
                             :class="{
                                 'active': pageNumber == currentPaginationPage,
                             }"
@@ -47,7 +49,7 @@
                     </li>
                     <li class="page-item">
                         <a
-                            class="page-link"
+                            class="page-link btn"
                             :class="{
                                 'disabled':
                                     currentPaginationPage == lastPaginationPage,
@@ -101,3 +103,7 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+    
+</style>
