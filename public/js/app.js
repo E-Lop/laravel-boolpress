@@ -1912,8 +1912,28 @@ __webpack_require__.r(__webpack_exports__);
   name: "Posts",
   data: function data() {
     return {
-      pageTitle: "Lista dei post"
+      pageTitle: "Lista dei post",
+      posts: []
     };
+  },
+  methods: {
+    getPosts: function getPosts() {
+      var _this = this;
+
+      axios.get("/api/posts").then(function (response) {
+        _this.posts = response.data.results;
+      });
+    },
+    truncateText: function truncateText(text) {
+      if (text.length > 75) {
+        return text.slice(0, 75) + "...";
+      }
+
+      return text;
+    }
+  },
+  mounted: function mounted() {
+    this.getPosts();
   }
 });
 
@@ -1956,27 +1976,25 @@ var render = function render() {
 
   return _c("section", [_c("div", {
     staticClass: "container"
-  }, [_c("h1", [_vm._v(_vm._s(_vm.pageTitle))]), _vm._v(" "), _vm._m(0)])]);
+  }, [_c("h1", [_vm._v(_vm._s(_vm.pageTitle))]), _vm._v(" "), _c("div", {
+    staticClass: "row row-cols-3"
+  }, _vm._l(_vm.posts, function (post) {
+    return _c("div", {
+      key: post.id,
+      staticClass: "col"
+    }, [_c("div", {
+      staticClass: "card mt-4"
+    }, [_c("div", {
+      staticClass: "card-body"
+    }, [_c("h5", {
+      staticClass: "card-title"
+    }, [_vm._v(_vm._s(post.title))]), _vm._v(" "), _c("p", {
+      staticClass: "card-text"
+    }, [_vm._v("\n                            " + _vm._s(_vm.truncateText(post.content)) + "\n                        ")])])])]);
+  }), 0)])]);
 };
 
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "row row-cols-3"
-  }, [_c("div", {
-    staticClass: "col"
-  }, [_c("div", {
-    staticClass: "card mt-4"
-  }, [_c("div", {
-    staticClass: "card-body"
-  }, [_c("h5", {
-    staticClass: "card-title"
-  }, [_vm._v("Card title")]), _vm._v(" "), _c("p", {
-    staticClass: "card-text"
-  }, [_vm._v("\n                            Some quick example text to build on the card\n                            title and make up the bulk of the card's\n                            content.\n                        ")])])])])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
