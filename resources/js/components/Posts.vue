@@ -24,7 +24,7 @@
                     <li class="page-item">
                         <a
                             class="page-link"
-                            :class="{ disabled: currentPaginationPage == 1 }"
+                            :class="{ 'disabled': currentPaginationPage == 1 }"
                             @click.prevent="getPosts(currentPaginationPage - 1)"
                             href="#"
                             >Previous</a
@@ -39,7 +39,7 @@
                             @click.prevent="getPosts(pageNumber)"
                             class="page-link"
                             :class="{
-                                active: pageNumber == currentPaginationPage,
+                                'active': pageNumber == currentPaginationPage,
                             }"
                             href="#"
                             >{{ pageNumber }}</a
@@ -49,7 +49,7 @@
                         <a
                             class="page-link"
                             :class="{
-                                disabled:
+                                'disabled':
                                     currentPaginationPage == lastPaginationPage,
                             }"
                             @click.prevent="getPosts(currentPaginationPage + 1)"
