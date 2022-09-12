@@ -1956,10 +1956,27 @@ var render = function render() {
 
   return _c("section", [_c("div", {
     staticClass: "container"
-  }, [_c("h1", [_vm._v(_vm._s(_vm.pageTitle))])])]);
+  }, [_c("h1", [_vm._v(_vm._s(_vm.pageTitle))]), _vm._v(" "), _vm._m(0)])]);
 };
 
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "row row-cols-3"
+  }, [_c("div", {
+    staticClass: "col"
+  }, [_c("div", {
+    staticClass: "card mt-4"
+  }, [_c("div", {
+    staticClass: "card-body"
+  }, [_c("h5", {
+    staticClass: "card-title"
+  }, [_vm._v("Card title")]), _vm._v(" "), _c("p", {
+    staticClass: "card-text"
+  }, [_vm._v("\n                            Some quick example text to build on the card\n                            title and make up the bulk of the card's\n                            content.\n                        ")])])])])]);
+}];
 render._withStripped = true;
 
 
@@ -49578,6 +49595,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 var app = new Vue({
   el: "#root",
