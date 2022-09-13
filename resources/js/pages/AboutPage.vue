@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <h1>Pagina about gestita da Vue-Router</h1>
     </div>
 </template>
