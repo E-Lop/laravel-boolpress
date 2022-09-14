@@ -5,24 +5,8 @@
 
             <div class="row row-cols-3">
                 <!-- single post card -->
-                <div v-for="post in posts" :key="post.id" class="col">
-                    <div class="card mt-4">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ post.title }}</h5>
-                            <p class="card-text">
-                                {{ truncateText(post.content) }}
-                            </p>
-                            <router-link 
-                                class="btn btn-primary" 
-                                :to="{
-                                    name: 'single-post',
-                                    params: { slug: post.slug }
-                                    }"
-                            >
-                                Leggi
-                            </router-link>
-                        </div>
-                    </div>
+                <div v-for="singlePost in posts" :key="singlePost.id" class="col">
+                    <PostDetails :post="singlePost"/>
                 </div>
             </div>
 
@@ -74,8 +58,12 @@
 </template>
 
 <script>
+import PostDetails from './PostDetails.vue';
 export default {
     name: "Posts",
+    components: {
+        PostDetails
+    },
     data() {
         return {
             title: "Lista dei post",
@@ -98,13 +86,7 @@ export default {
                         response.data.results.current_page;
                     this.lastPaginationPage = response.data.results.last_page;
                 });
-        },
-        truncateText(text) {
-            if (text.length > 75) {
-                return text.slice(0, 75) + "...";
-            }
-            return text;
-        },
+        }
     },
     mounted() {
         this.getPosts(1);
