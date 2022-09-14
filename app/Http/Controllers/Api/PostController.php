@@ -24,12 +24,18 @@ class PostController extends Controller
     // ritorna un JSON con il contenuto del post
     // with() effettua una JOIN per recuperare i dati di 'slug' e 'category'
     public function show($slug) {
-        $post = Post::where('slug', '=', $slug)with(['slug', 'category'])->first();
+        $post = Post::where('slug', '=', $slug)->with(['tags', 'category'])->first();
 
-        $data = [
-            'success' => true,
-            'results' => $post
-        ];
+        if($post) {
+            $data = [
+                'success' => true,
+                'results' => $post
+            ];
+        } else {
+            $data = [
+                'success' => false,
+            ];
+        }
 
         return response()->json($data);
     }
