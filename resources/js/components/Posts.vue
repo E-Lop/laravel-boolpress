@@ -1,7 +1,7 @@
 <template>
     <section>
         <div class="container">
-            <h1>{{ pageTitle }}</h1>
+            <h2>{{ title }}</h2>
 
             <div class="row row-cols-3">
                 <!-- single post card -->
@@ -70,7 +70,7 @@ export default {
     name: "Posts",
     data() {
         return {
-            pageTitle: "Lista dei post",
+            title: "Lista dei post",
             posts: [],
             currentPaginationPage: 1,
             lastPaginationPage: null,

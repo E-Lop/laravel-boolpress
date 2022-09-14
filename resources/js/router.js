@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import BlogPage from './pages/BlogPage';
 import NotFound from './pages/NotFound';
+import SinglePost from './pages/SinglePost';
 
 // regole di routing
 const router = new VueRouter({
@@ -26,6 +27,11 @@ const router = new VueRouter({
             path: '/blog', 
             name: 'blog', 
             component: BlogPage
+        },
+        { 
+            path: '/blog/:slug', 
+            name: 'single-post', 
+            component: SinglePost
         },
         { 
             path: '/*', 
