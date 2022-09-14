@@ -18,4 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// API per tutti i post nel db
 Route::get('/posts', 'Api\PostController@index');
+// API per il dettaglio del singolo post
+Route::get('/posts/{slug}', 'Api\PostController@show');
