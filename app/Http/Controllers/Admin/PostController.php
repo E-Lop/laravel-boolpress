@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Jenssegers\Date\Date;
 use App\Category;
 use App\Tag;
+use Illuminate\Support\Facades\Storage;
 
 Date::setLocale('it');
 
@@ -62,9 +63,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        // prerequisito di validazione dei dati
         $validateData = $request->validate($this->getValidationRules());
 
         $form_data = $request->all();
+
+        // se l'immagine esiste
+        if(isset($form_data['image'])) {
+            // carico l'immagine nella cartella post-covers e 
+            // ottengo img_path dell'immagine
+            $img_path = Storage::put('post-covers', $form_data['image']);
+            $form_data['cover'] = $img_path;
+        }
 
         $new_post = new Post();
         $new_post->fill($form_data);
