@@ -1,6 +1,7 @@
 <template>
     <div class="card mt-4">
         <div class="card-body">
+            <img class="w-100" v-if="post.cover" :src="post.cover" :alt="post.title">
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">
                 {{ truncateText(post.content) }}

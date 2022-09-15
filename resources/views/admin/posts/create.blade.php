@@ -48,6 +48,9 @@
           <label for="image" class="form-label">Immagine</label>
           <input class="form-control" type="file" id="image" name="image">
         </div>
+          @error('image')
+              <div class="alert alert-danger">{{ $message }}</div>
+          @enderror
 
         <div class="mb-3">
           <label for="content" class="form-label">Contenuto</label>
