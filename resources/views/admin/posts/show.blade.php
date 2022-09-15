@@ -3,6 +3,10 @@
 @section('content')
     <h1>{{ $post->title }}</h1>
 
+    @if ($post->cover)
+        <img class="w-50" src="{{ asset('storage/' . $post->cover) }}" alt="{{ $post->title }}">
+    @endif
+
     <div><strong>Creato il: </strong>{{ $data_creato_italiana }}</div>
     <div><strong>Aggiornato il: </strong>{{ $data_modificato_italiana }}</div>
     <div><strong>Slug: </strong>{{ $post->slug }}</div>

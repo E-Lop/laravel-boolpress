@@ -140,14 +140,28 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
         $request->validate($this->getValidationRules());
         
         $form_data = $request->all();
-
+        
         // post da aggiornare preso dal db
         $post_to_update = Post::findOrFail($id);
 
+        // Gestione immagine:
+        // se l'immagine è presente in $form_data
+        if(isset($form_data['image'])) {
+            // cancello dal disco la vecchia immagine
+            if($post_to_update->cover) {
+                Storage::delete($post_to_update->cover);
+            }
+
+            // upload del nuovo file
+            $img_path = Storage::put('post-covers', $form_data['image']);
+            // popolo $form_data['cover'] con $img_path
+            $form_data['cover'] = $img_path;
+        }
+        
         // aggiungere slug all'array dei nuovi dati
         // ricalcolo slug solo se cambia il titolo
         if($form_data['title'] !== $post_to_update->title) {
@@ -178,6 +192,12 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post_to_delete = Post::findOrFail($id);
+
+        // se il post contiene una immagine la rimuovo dal disco
+        if($post_to_delete->cover) {
+            Storage::delete($post_to_delete->cover);
+        }
+
         // prima di eliminare il post rimuovo tutti i tag
         $post_to_delete->tags()->sync([]);
         $post_to_delete->delete();
@@ -212,7 +232,8 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'content' => 'required|max:60000',
             'category_id' => 'nullable|exists:categories,id',
-            'tags' => 'nullable|exists:tags,id'
+            'tags' => 'nullable|exists:tags,id',
+            'image' => 'image|max:1024|nullable'
         ];
     }
 }
