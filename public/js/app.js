@@ -2056,6 +2056,24 @@ __webpack_require__.r(__webpack_exports__);
       userEmail: '',
       userMessage: ''
     };
+  },
+  methods: {
+    sendMessage: function sendMessage() {
+      var _this = this;
+
+      axios.post('/api/leads', {
+        name: this.userName,
+        email: this.userEmail,
+        message: this.userMessage
+      }).then(function (response) {
+        if (response.data.success) {
+          _this.success = true;
+          _this.userName = '';
+          _this.userEmail = '';
+          _this.userMessage = '';
+        }
+      });
+    }
   }
 });
 
@@ -2404,7 +2422,19 @@ var render = function render() {
 
   return _c("div", {
     staticClass: "container"
-  }, [_c("h1", [_vm._v("Contattaci")]), _vm._v(" "), _c("form", [_c("div", {
+  }, [_c("h1", [_vm._v("Contattaci")]), _vm._v(" "), _vm.success ? _c("div", {
+    staticClass: "alert alert-success",
+    attrs: {
+      role: "alert"
+    }
+  }, [_vm._v("\n        Grazie per averci contattato\n    ")]) : _vm._e(), _vm._v(" "), _c("form", {
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.sendMessage.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
     staticClass: "mb-3"
   }, [_c("label", {
     staticClass: "form-label",

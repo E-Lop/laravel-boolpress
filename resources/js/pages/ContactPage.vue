@@ -1,7 +1,12 @@
 <template>
     <div class="container">
         <h1>Contattaci</h1>
-        <form>
+
+        <div v-if="success" class="alert alert-success" role="alert">
+            Grazie per averci contattato
+        </div>
+        
+        <form @submit.prevent="sendMessage">
             <div class="mb-3">
                 <label for="user-name" class="form-label">Nome</label>
                 <input type="text"  v-model="userName" class="form-control" id="user-name">
@@ -27,6 +32,24 @@ export default {
             userName: '',
             userEmail: '',
             userMessage: ''
+        }
+    },
+    methods: {
+        sendMessage() {
+            axios.post('/api/leads', {
+                name: this.userName,
+                email: this.userEmail,
+                message: this.userMessage
+            })
+            .then((response) => {
+                if(response.data.success) {
+                    this.success = true;
+
+                    this.userName = '';
+                    this.userEmail = '';
+                    this.userMessage = '';
+                }                
+            });
         }
     }
 }
