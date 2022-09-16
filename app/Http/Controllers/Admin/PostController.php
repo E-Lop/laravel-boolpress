@@ -11,6 +11,8 @@ use Jenssegers\Date\Date;
 use App\Category;
 use App\Tag;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\NewPostEmailToAdmin;
+use Illuminate\Support\Facades\Mail;
 
 Date::setLocale('it');
 
@@ -86,6 +88,9 @@ class PostController extends Controller
         if(isset($form_data['tags'])) {
             $new_post->tags()->sync($form_data['tags']);
         }
+        
+        // invio email ad amministratore alla pubblicazione di un post
+        Mail::to('admin@boolpress.it')->send(new NewPostEmailToAdmin($new_post));
 
         return redirect()->route('admin.posts.show', ['post' => $new_post->id]);
     }
